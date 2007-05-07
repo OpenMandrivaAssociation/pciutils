@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.4
-Release:	%mkrel 10
+Release:	%mkrel 11
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
@@ -8,6 +8,7 @@ Patch10:	pciutils-2.2.4-pcimodules.patch
 Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
 License:	GPL
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:	zlib-devel
 Requires:	pciids
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5mdv2007.1
@@ -35,13 +36,13 @@ devices connected to the PCI bus.
 %patch10 -p1
 
 %build
-make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC"
+%make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%_bindir,%_mandir/man8,%_libdir,%_includedir/pci}
 
-install -s pcimodules lspci setpci $RPM_BUILD_ROOT%_bindir
+install pcimodules lspci setpci $RPM_BUILD_ROOT%_bindir
 install -m 644 pcimodules.man lspci.8 setpci.8 $RPM_BUILD_ROOT%_mandir/man8
 install -m 644 lib/libpci.a $RPM_BUILD_ROOT%_libdir
 install -m 644 lib/{pci.h,header.h,config.h,types.h} $RPM_BUILD_ROOT%_includedir/pci
