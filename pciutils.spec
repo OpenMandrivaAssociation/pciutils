@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.4
-Release:	%mkrel 11
+Release:	%mkrel 12
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
@@ -8,7 +8,9 @@ Patch10:	pciutils-2.2.4-pcimodules.patch
 Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
 License:	GPL
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	zlib-devel
+# do not build with zlib support since it's useless (only needed if we compress
+# pci.ids which we cannot do since hal mmaps it for memory saving reason):
+BuildConflicts:	zlib-devel
 Requires:	pciids
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5mdv2007.1
