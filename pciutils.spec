@@ -8,9 +8,6 @@ Patch10:	pciutils-2.2.4-pcimodules.patch
 Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
 License:	GPL
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-# do not build with zlib support since it's useless (only needed if we compress
-# pci.ids which we cannot do since hal mmaps it for memory saving reason):
-BuildConflicts:	zlib-devel
 Requires:	pciids
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5mdv2007.1
@@ -38,7 +35,9 @@ devices connected to the PCI bus.
 %patch10 -p1
 
 %build
-%make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC"
+# do not build with zlib support since it's useless (only needed if we compress
+# pci.ids which we cannot do since hal mmaps it for memory saving reason)
+%make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC" ZLIB=no
 
 %install
 rm -rf $RPM_BUILD_ROOT
