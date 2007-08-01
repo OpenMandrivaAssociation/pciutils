@@ -1,3 +1,5 @@
+# when updating, please rebuild ldetect as it is compiled against this static library
+
 Name:		pciutils
 Version:	2.2.6
 Release:	%mkrel 1
