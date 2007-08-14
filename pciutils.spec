@@ -8,6 +8,8 @@ URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
 Patch10:	pciutils-2.2.4-pcimodules.patch
 Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
+# allow build with dietlibc, using sycall() and sys/io.h
+Patch20:	pciutils-2.2.6-noglibc.patch
 License:	GPL
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	pciids
@@ -35,6 +37,7 @@ devices connected to the PCI bus.
 %patch0 -p1
 %patch11 -p1
 %patch10 -p1
+%patch20 -p1
 
 %build
 # do not build with zlib support since it's useless (only needed if we compress
