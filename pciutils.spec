@@ -13,7 +13,6 @@ Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
 # allow build with dietlibc, using sycall() and sys/io.h
 Patch20:	pciutils-2.2.6-noglibc.patch
 License:	GPL
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	pciids
 %if %{build_diet}
 BuildRequires: dietlibc-devel
