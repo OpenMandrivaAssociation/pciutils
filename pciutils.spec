@@ -3,8 +3,8 @@
 %define build_diet 1
 
 Name:		pciutils
-Version:	2.2.6
-Release:	%mkrel 3
+Version:	2.2.9
+Release:	%mkrel 1
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
