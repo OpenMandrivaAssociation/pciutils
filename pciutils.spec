@@ -3,12 +3,12 @@
 %define build_diet 1
 
 Name:		pciutils
-Version:	2.2.9
+Version:	3.0.0
 Release:	%mkrel 1
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
-Patch10:	pciutils-2.2.4-pcimodules.patch
+Patch10:	pciutils-3.0.0-pcimodules.patch
 Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
 # allow build with dietlibc, using sycall() and sys/io.h
 Patch20:	pciutils-2.2.6-noglibc.patch
