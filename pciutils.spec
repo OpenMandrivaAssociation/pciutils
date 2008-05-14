@@ -7,7 +7,7 @@
 
 Name:		pciutils
 Version:	3.0.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
@@ -81,6 +81,7 @@ install pcimodules lspci setpci $RPM_BUILD_ROOT%_bindir
 install -m 644 pcimodules.man lspci.8 setpci.8 $RPM_BUILD_ROOT%_mandir/man8
 install -m 644 lib/libpci.a.libc $RPM_BUILD_ROOT%_libdir/libpci.a
 install lib/libpci.so.%{major}.* $RPM_BUILD_ROOT%_libdir
+ln -s libpci.so.3 $RPM_BUILD_ROOT%_libdir/libpci.so
 %if %{build_diet}
 install -d $RPM_BUILD_ROOT%{_prefix}/lib/dietlibc/lib-%{_arch}
 install libpci.a.diet $RPM_BUILD_ROOT%{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
@@ -115,6 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc TODO
 %{_bindir}/update-pciids.sh
 %{_libdir}/*.a
+%{_libdir}/*.so
 %if %{build_diet}
 %{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
 %endif
