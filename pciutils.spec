@@ -2,6 +2,9 @@
 
 %define build_diet 1
 
+%define major	3
+%define libname %mklibname pci %major
+
 Name:		pciutils
 Version:	3.0.0
 Release:	%mkrel 1
@@ -39,6 +42,14 @@ Group:		Development/C
 This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
+%package	-n %libname
+Summary:	The PCI library
+Group:		System/Libraries
+
+%description	-n %libname
+This package contains a dynamic library for inspecting and setting
+devices connected to the PCI bus.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -54,9 +65,13 @@ cp lib/libpci.a libpci.a.diet
 make clean
 %endif
 
+make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC" ZLIB=no SHARED=no lib/libpci.a 
+cp lib/libpci.a lib/libpci.a.libc
+make clean
+
 # do not build with zlib support since it's useless (only needed if we compress
 # pci.ids which we cannot do since hal mmaps it for memory saving reason)
-%make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC" ZLIB=no
+%make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC" ZLIB=no SHARED=yes
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -64,7 +79,8 @@ install -d $RPM_BUILD_ROOT{%_bindir,%_mandir/man8,%_libdir,%_includedir/pci}
 
 install pcimodules lspci setpci $RPM_BUILD_ROOT%_bindir
 install -m 644 pcimodules.man lspci.8 setpci.8 $RPM_BUILD_ROOT%_mandir/man8
-install -m 644 lib/libpci.a $RPM_BUILD_ROOT%_libdir
+install -m 644 lib/libpci.a.libc $RPM_BUILD_ROOT%_libdir/libpci.a
+install lib/libpci.so.%{major}.* $RPM_BUILD_ROOT%_libdir
 %if %{build_diet}
 install -d $RPM_BUILD_ROOT%{_prefix}/lib/dietlibc/lib-%{_arch}
 install libpci.a.diet $RPM_BUILD_ROOT%{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
@@ -78,6 +94,9 @@ install -m 755 update-pciids.sh $RPM_BUILD_ROOT%_bindir/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post -n %libname -p /sbin/ldconfig
+%postun -n %libname -p /sbin/ldconfig
+
 %files
 %defattr(-, root, root)
 %doc README ChangeLog pciutils.lsm
@@ -86,6 +105,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/pcimodules
 %{_bindir}/setpci
 
+
+%files -n %libname
+%defattr(-, root, root)
+%{_libdir}/*.so.%{major}*
 
 %files devel
 %defattr(-, root, root)
