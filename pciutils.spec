@@ -12,6 +12,8 @@ Patch10:	pciutils-3.0.0-pcimodules.patch
 Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
 # allow build with dietlibc, using sycall() and sys/io.h
 Patch20:	pciutils-2.2.6-noglibc.patch
+# allow build with dietlibc, not using unsupported features:
+Patch21:	pciutils-3.0.0-fix-compiliing-w-diet.patch
 License:	GPL
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	pciids
@@ -43,10 +45,11 @@ devices connected to the PCI bus.
 %patch11 -p1
 %patch10 -p1
 %patch20 -p1
+%patch21 -p1
 
 %build
 %if %{build_diet}
-%make PREFIX=%{_prefix} ZLIB=no OPT="-Os" CC="diet gcc" lib/libpci.a
+%make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" CC="diet gcc" lib/libpci.a
 cp lib/libpci.a libpci.a.diet
 make clean
 %endif
