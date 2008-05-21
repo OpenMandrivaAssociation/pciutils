@@ -30,9 +30,7 @@ Group:		System/Kernel and hardware
 
 %description
 This package contains various utilities for inspecting and setting
-devices connected to the PCI bus. The utilities provided require
-kernel version 2.1.82 or newer (supporting the /proc/bus/pci
-interface).
+devices connected to the PCI bus. 
 
 %package	devel
 Summary:	Linux PCI development library
