@@ -7,7 +7,7 @@
 
 Name:		pciutils
 Version:	3.0.0
-Release:	%mkrel 4
+Release:	%mkrel 5
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
@@ -18,7 +18,7 @@ Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.0-fix-compiliing-w-diet.patch
 License:	GPL
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	pciids
 %if %{build_diet}
 BuildRequires: dietlibc-devel
