@@ -7,7 +7,7 @@
 
 Name:		pciutils
 Version:	3.0.0
-Release:	%mkrel 3
+Release:	%mkrel 4
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
@@ -35,6 +35,7 @@ devices connected to the PCI bus.
 %package	devel
 Summary:	Linux PCI development library
 Group:		Development/C
+Requires:	%libname
 
 %description	devel
 This package contains a library for inspecting and setting
