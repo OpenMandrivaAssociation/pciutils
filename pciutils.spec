@@ -7,7 +7,7 @@
 
 Name:		pciutils
 Version:	3.0.0
-Release:	%mkrel 6
+Release:	%mkrel 7
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-2.2.1-use-stdint.patch
@@ -17,6 +17,7 @@ Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
 Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.0-fix-compiliing-w-diet.patch
+Patch22:	pciutils-3.0.0-LDFLAGS.diff
 License:	GPL
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	pciids
@@ -51,11 +52,12 @@ devices connected to the PCI bus.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch11 -p1
+%patch0 -p0
+%patch11 -p0
 %patch10 -p1
 %patch20 -p1
 %patch21 -p1
+%patch22 -p1
 
 %build
 %if %{build_diet}
@@ -64,13 +66,13 @@ cp lib/libpci.a libpci.a.diet
 make clean
 %endif
 
-make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC" ZLIB=no SHARED=no lib/libpci.a 
+make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=no LDFLAGS="%{ldflags}" lib/libpci.a 
 cp lib/libpci.a lib/libpci.a.libc
 make clean
 
 # do not build with zlib support since it's useless (only needed if we compress
 # pci.ids which we cannot do since hal mmaps it for memory saving reason)
-%make PREFIX=%{_prefix} OPT="$RPM_OPT_FLAGS -fPIC" ZLIB=no SHARED=yes
+%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=yes LDFLAGS="%{ldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
