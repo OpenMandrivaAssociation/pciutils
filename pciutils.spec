@@ -6,18 +6,18 @@
 %define libname %mklibname pci %major
 
 Name:		pciutils
-Version:	3.0.0
-Release:	%mkrel 7
+Version:	3.0.3
+Release:	%mkrel 1
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
-Patch0: 	pciutils-2.2.1-use-stdint.patch
+Patch0: 	pciutils-3.0.3-use-stdint.patch
 Patch10:	pciutils-3.0.0-pcimodules.patch
-Patch11:	pciutils-2.2.1-cardbus-only-when-root.patch
+Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 # allow build with dietlibc, using sycall() and sys/io.h
 Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
-Patch21:	pciutils-3.0.0-fix-compiliing-w-diet.patch
-Patch22:	pciutils-3.0.0-LDFLAGS.diff
+Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
+Patch22:	pciutils-3.0.3-LDFLAGS.diff
 License:	GPL
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	pciids
