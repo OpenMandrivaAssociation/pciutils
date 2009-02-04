@@ -7,7 +7,7 @@
 
 Name:		pciutils
 Version:	3.0.3
-Release:	%mkrel 1
+Release:	%mkrel 2
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.html
 Patch0: 	pciutils-3.0.3-use-stdint.patch
@@ -66,7 +66,7 @@ cp lib/libpci.a libpci.a.diet
 make clean
 %endif
 
-make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=no LDFLAGS="%{ldflags}" lib/libpci.a 
+make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=no DNS=no LDFLAGS="%{ldflags}" lib/libpci.a 
 cp lib/libpci.a lib/libpci.a.libc
 make clean
 
