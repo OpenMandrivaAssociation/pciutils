@@ -7,12 +7,12 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.1.3
+Version:	3.1.4
 Release:	%mkrel 1
 License:	GPLv1+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
-Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 Patch0:		pciutils-3.0.3-use-stdint.patch
 Patch10:	pciutils-3.1.2-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
@@ -20,7 +20,7 @@ Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
-Patch22:	pciutils-3.1.3-LDFLAGS.patch
+Patch22:	pciutils-3.1.4-LDFLAGS.patch
 Requires:	pciids
 %if %{build_diet}
 BuildRequires:	dietlibc-devel
