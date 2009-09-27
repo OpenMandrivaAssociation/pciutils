@@ -2,13 +2,17 @@
 
 %define build_diet 1
 
+%define bootstrap 0
+%{?_without_bootstrap: %global bootstrap 0}
+%{?_with_bootstrap: %global bootstrap 1}
+
 %define major	3
 %define libname %mklibname pci %{major}
 
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.4
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv1+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -21,7 +25,9 @@ Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
 Patch22:	pciutils-3.1.4-LDFLAGS.patch
+%if !%{bootstrap}
 Requires:	pciids
+%endif
 %if %{build_diet}
 BuildRequires:	dietlibc-devel
 %endif
