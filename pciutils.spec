@@ -31,7 +31,6 @@ Requires:	pciids
 %if %{build_diet}
 BuildRequires:	dietlibc-devel
 %endif
-BuildConflicts:	zlib-devel
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5mdv2007.1
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
