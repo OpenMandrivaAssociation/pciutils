@@ -12,7 +12,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.4
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv1+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -25,6 +25,7 @@ Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
 Patch22:	pciutils-3.1.4-LDFLAGS.patch
+Patch23:	100-fixed-freeing-of-capabilities.diff
 %if !%{bootstrap}
 Requires:	pciids
 %endif
@@ -64,6 +65,7 @@ devices connected to the PCI bus.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
 
 %build
 %if %{build_diet}
