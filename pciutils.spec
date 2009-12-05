@@ -26,6 +26,25 @@ Patch20:	pciutils-2.2.6-noglibc.patch
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
 Patch22:	pciutils-3.1.4-LDFLAGS.patch
 Patch23:	100-fixed-freeing-of-capabilities.diff
+
+# Fedora patches
+# truncate too long names (rhbz #205948)
+Patch101:         pciutils-2.2.4-buf.patch
+# don't segfault on systems without PCI bus (rhbz #84146)
+Patch102:         pciutils-2.1.10-scan.patch
+# use pread/pwrite, ifdef check is obsolete nowadays
+Patch103:         pciutils-havepread.patch
+# change pci.ids directory to hwdata
+Patch106:         pciutils-2.2.1-idpath.patch
+# multilib support
+Patch108:         pciutils-3.0.2-multilib.patch
+# add support for directory with another pci.ids
+Patch109:         pciutils-dir-d.patch
+# platform support 3x
+Patch110:        pciutils-2.2.10-sparc-support.patch
+Patch111:        pciutils-3.0.1-superh-support.patch
+Patch112:        pciutils-3.1.2-arm.patch
+
 %if !%{bootstrap}
 Requires:	pciids
 %endif
@@ -63,9 +82,20 @@ devices connected to the PCI bus.
 %patch10 -p1
 %patch11 -p0
 %patch20 -p1
-%patch21 -p1
+#%patch21 -p1
 %patch22 -p1
 %patch23 -p1
+
+%patch101 -p1 -b .buf~
+%patch102 -p1 -b .scan~
+%patch103 -p1 -b .pread~
+%patch106 -p1 -b .idpath~
+%patch108 -p1 -b .multilib~
+%patch109 -p1 -b .dird~
+%patch110 -p1 -b .sparc~
+%patch111 -p1 -b .superh~
+%patch112 -p1 -b .arm~
+
 
 %build
 %if %{build_diet}
@@ -99,8 +129,6 @@ install libpci.a.diet %{buildroot}%{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
 install -m 644 lib/{pci.h,header.h,config.h,types.h} %{buildroot}%{_includedir}/pci
 install -m 755 update-pciids.sh %{buildroot}%{_bindir}/
 
-%multiarch_includes %{buildroot}%{_includedir}/pci/config.h
-
 %clean
 rm -rf %{buildroot}
 
@@ -132,6 +160,5 @@ rm -rf %{buildroot}
 %if %{build_diet}
 %{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
 %endif
-%{_includedir}/pci
-%{_includedir}/*/pci
-%multiarch %{_includedir}/multiarch-*/pci/config.h
+%dir %{_includedir}/pci
+%{_includedir}/pci/*.h
