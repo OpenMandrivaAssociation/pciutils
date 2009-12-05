@@ -12,8 +12,8 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.4
-Release:	%mkrel 3
-License:	GPLv1+
+Release:	%mkrel 4
+License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
