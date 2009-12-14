@@ -12,7 +12,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.4
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -91,7 +91,8 @@ devices connected to the PCI bus.
 %patch103 -p1 -b .pread~
 %patch106 -p1 -b .idpath~
 %patch108 -p1 -b .multilib~
-%patch109 -p1 -b .dird~
+# fixme:?
+#%%patch109 -p1 -b .dird~
 %patch110 -p1 -b .sparc~
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
