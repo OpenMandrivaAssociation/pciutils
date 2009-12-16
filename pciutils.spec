@@ -1,10 +1,8 @@
 # when updating, please rebuild ldetect as it is compiled against this static library
 
-%define build_diet 1
-
-%define bootstrap 0
-%{?_without_bootstrap: %global bootstrap 0}
-%{?_with_bootstrap: %global bootstrap 1}
+%bcond_with	bootstrap
+%bcond_with	diet
+%bcond_without	uclibc
 
 %define major	3
 %define libname %mklibname pci %{major}
@@ -45,11 +43,14 @@ Patch110:        pciutils-2.2.10-sparc-support.patch
 Patch111:        pciutils-3.0.1-superh-support.patch
 Patch112:        pciutils-3.1.2-arm.patch
 
-%if !%{bootstrap}
+%if !%{with bootstrap}
 Requires:	pciids
 %endif
-%if %{build_diet}
+%if %{with diet}
 BuildRequires:	dietlibc-devel
+%endif
+%if %{with uclibc}
+BuildRequires:	uClibc-devel
 %endif
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5mdv2007.1
@@ -59,20 +60,20 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 This package contains various utilities for inspecting and setting
 devices connected to the PCI bus. 
 
-%package devel
+%package	devel
 Summary:	Linux PCI development library
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
 
-%description devel
+%description	devel
 This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
-%package -n %{libname}
+%package -n	%{libname}
 Summary:	The PCI library
 Group:		System/Libraries
 
-%description -n %{libname}
+%description -n	%{libname}
 This package contains a dynamic library for inspecting and setting
 devices connected to the PCI bus.
 
@@ -82,7 +83,7 @@ devices connected to the PCI bus.
 %patch10 -p1
 %patch11 -p0
 %patch20 -p1
-#%patch21 -p1
+%patch21 -p1
 %patch22 -p1
 %patch23 -p1
 
@@ -99,9 +100,14 @@ devices connected to the PCI bus.
 
 
 %build
-%if %{build_diet}
+%if %{with diet}
 %make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" CC="diet gcc" lib/libpci.a
 cp lib/libpci.a libpci.a.diet
+make clean
+%endif
+%if %{with uclibc}
+%make PREFIX=%{_prefix} ZLIB=no OPT="%{uclibc_cflags}" CC="%{uclibc_cc}" lib/libpci.a
+cp lib/libpci.a libpci.a.uclibc
 make clean
 %endif
 
@@ -122,9 +128,11 @@ install -m 644 pcimodules.man lspci.8 setpci.8 %{buildroot}%{_mandir}/man8
 install -m 644 lib/libpci.a.libc %{buildroot}%{_libdir}/libpci.a
 install lib/libpci.so.%{major}.* %{buildroot}%{_libdir}
 ln -s libpci.so.3 %{buildroot}%{_libdir}/libpci.so
-%if %{build_diet}
-install -d %{buildroot}%{_prefix}/lib/dietlibc/lib-%{_arch}
-install libpci.a.diet %{buildroot}%{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
+%if %{with diet}
+install -m644 libpci.a.diet -D %{buildroot}%{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
+%endif
+%if %{with uclibc}
+install -m644 libpci.a.uclibc -D %{buildroot}%{uclibc_root}%{_libdir}/libpci.a
 %endif
 
 install -m 644 lib/{pci.h,header.h,config.h,types.h} %{buildroot}%{_includedir}/pci
@@ -158,8 +166,11 @@ rm -rf %{buildroot}
 %{_bindir}/update-pciids.sh
 %{_libdir}/*.a
 %{_libdir}/*.so
-%if %{build_diet}
+%if %{with diet}
 %{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
+%endif
+%if %{with uclibc}
+%{uclibc_root}%{_libdir}/libpci.a
 %endif
 %dir %{_includedir}/pci
 %{_includedir}/pci/*.h
