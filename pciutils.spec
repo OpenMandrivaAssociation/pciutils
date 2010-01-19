@@ -9,12 +9,12 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.1.4
-Release:	%mkrel 6
+Version:	3.1.5
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
-Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
+Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-3.0.3-use-stdint.patch
 Patch10:	pciutils-3.1.2-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
@@ -23,7 +23,6 @@ Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
 Patch22:	pciutils-3.1.4-LDFLAGS.patch
-Patch23:	100-fixed-freeing-of-capabilities.diff
 
 # Fedora patches
 # truncate too long names (rhbz #205948)
@@ -85,7 +84,6 @@ devices connected to the PCI bus.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
-%patch23 -p1
 
 %patch101 -p1 -b .buf~
 %patch102 -p1 -b .scan~
