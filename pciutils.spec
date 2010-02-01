@@ -9,7 +9,7 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.1.6
+Version:	3.1.7
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Kernel and hardware
@@ -22,7 +22,7 @@ Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
-Patch22:	pciutils-3.1.6-LDFLAGS.patch
+Patch22:	pciutils-3.1.7-LDFLAGS.patch
 
 # Fedora patches
 # truncate too long names (rhbz #205948)
