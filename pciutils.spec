@@ -1,7 +1,7 @@
 # when updating, please rebuild ldetect as it is compiled against this static library
 
 %bcond_with	bootstrap
-%bcond_with	diet
+%define build_diet 1
 %bcond_without	uclibc
 
 %define major	3
@@ -10,7 +10,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.7
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -45,7 +45,7 @@ Patch112:        pciutils-3.1.2-arm.patch
 %if !%{with bootstrap}
 Requires:	pciids
 %endif
-%if %{with diet}
+%if %{build_diet}
 BuildRequires:	dietlibc-devel
 %endif
 %if %{with uclibc}
@@ -98,7 +98,7 @@ devices connected to the PCI bus.
 
 
 %build
-%if %{with diet}
+%if %{build_diet}
 %make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" CC="diet gcc" lib/libpci.a
 cp lib/libpci.a libpci.a.diet
 make clean
@@ -126,7 +126,7 @@ install -m 644 pcimodules.man lspci.8 setpci.8 %{buildroot}%{_mandir}/man8
 install -m 644 lib/libpci.a.libc %{buildroot}%{_libdir}/libpci.a
 install lib/libpci.so.%{major}.* %{buildroot}%{_libdir}
 ln -s libpci.so.3 %{buildroot}%{_libdir}/libpci.so
-%if %{with diet}
+%if %{build_diet}
 install -m644 libpci.a.diet -D %{buildroot}%{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
 %endif
 %if %{with uclibc}
@@ -164,7 +164,7 @@ rm -rf %{buildroot}
 %{_bindir}/update-pciids.sh
 %{_libdir}/*.a
 %{_libdir}/*.so
-%if %{with diet}
+%if %{build_diet}
 %{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
 %endif
 %if %{with uclibc}
