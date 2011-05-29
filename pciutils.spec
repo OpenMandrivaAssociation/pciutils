@@ -6,11 +6,12 @@
 
 %define major	3
 %define libname %mklibname pci %{major}
+%define develname %mklibname pci -d
 
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.7
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -52,21 +53,12 @@ BuildRequires:	dietlibc-devel
 BuildRequires:	uClibc-devel
 %endif
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
-Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5mdv2007.1
+Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 This package contains various utilities for inspecting and setting
 devices connected to the PCI bus. 
-
-%package	devel
-Summary:	Linux PCI development library
-Group:		Development/C
-Requires:	%{libname} = %{version}-%{release}
-
-%description	devel
-This package contains a library for inspecting and setting
-devices connected to the PCI bus.
 
 %package -n	%{libname}
 Summary:	The PCI library
@@ -74,6 +66,19 @@ Group:		System/Libraries
 
 %description -n	%{libname}
 This package contains a dynamic library for inspecting and setting
+devices connected to the PCI bus.
+
+%package -n	%{develname}
+Summary:	Linux PCI development library
+Group:		Development/C
+Requires:	%{libname}  = %{version}-%{release}
+Provides:	libpci-devel = %{version}-%{release}
+Provides:	pci-devel = %{version}-%{release}
+Provides:	pciutils-devel = %{version}-%{release}
+Obsoletes:	pciutils-devel = %{version}-%{release}
+
+%description -n	%{develname}
+This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
 %prep
@@ -158,7 +163,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/*.so.%{major}*
 
-%files devel
+%files -n %{develname}
 %defattr(-,root,root)
 %doc TODO
 %{_bindir}/update-pciids.sh
