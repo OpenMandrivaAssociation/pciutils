@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.7
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -75,7 +75,7 @@ Requires:	%{libname}  = %{version}-%{release}
 Provides:	libpci-devel = %{version}-%{release}
 Provides:	pci-devel = %{version}-%{release}
 Provides:	pciutils-devel = %{version}-%{release}
-Obsoletes:	pciutils-devel = %{version}-%{release}
+Obsoletes:	pciutils-devel
 
 %description -n	%{develname}
 This package contains a library for inspecting and setting
