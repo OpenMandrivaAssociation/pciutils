@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.7
-Release:	%mkrel 7
+Release:	8
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -54,7 +54,6 @@ BuildRequires:	uClibc-devel
 %endif
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 This package contains various utilities for inspecting and setting
@@ -124,7 +123,7 @@ make clean
 
 %install
 rm -rf %{buildroot}
-install -d %{buildroot}{%{_bindir},%{_mandir}/man8,%{_libdir},%{_includedir}/pci}
+install -d %{buildroot}{%{_bindir},%{_mandir}/man8,%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install pcimodules lspci setpci %{buildroot}%{_bindir}
 install -m 644 pcimodules.man lspci.8 setpci.8 %{buildroot}%{_mandir}/man8
@@ -140,6 +139,7 @@ install -m644 libpci.a.uclibc -D %{buildroot}%{uclibc_root}%{_libdir}/libpci.a
 
 install -m 644 lib/{pci.h,header.h,config.h,types.h} %{buildroot}%{_includedir}/pci
 install -m 755 update-pciids.sh %{buildroot}%{_bindir}/
+install -m 644 lib/libpci.pc %{buildroot}%{_libdir}/pkgconfig/
 
 %clean
 rm -rf %{buildroot}
@@ -177,3 +177,4 @@ rm -rf %{buildroot}
 %endif
 %dir %{_includedir}/pci
 %{_includedir}/pci/*.h
+%{_libdir}/pkgconfig/libpci.pc
