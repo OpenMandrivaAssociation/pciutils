@@ -10,8 +10,8 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.1.7
-Release:	8
+Version:	3.1.8
+Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -23,25 +23,19 @@ Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
-Patch22:	pciutils-3.1.7-LDFLAGS.patch
+Patch22:	pciutils-3.1.8-LDFLAGS.patch
 
 # Fedora patches
-# truncate too long names (rhbz #205948)
-Patch101:         pciutils-2.2.4-buf.patch
 # don't segfault on systems without PCI bus (rhbz #84146)
 Patch102:         pciutils-2.1.10-scan.patch
 # use pread/pwrite, ifdef check is obsolete nowadays
 Patch103:         pciutils-havepread.patch
-# change pci.ids directory to hwdata
-Patch106:         pciutils-2.2.1-idpath.patch
 # multilib support
 Patch108:         pciutils-3.0.2-multilib.patch
-# add support for directory with another pci.ids
-Patch109:         pciutils-dir-d.patch
 # platform support 3x
 Patch110:        pciutils-2.2.10-sparc-support.patch
 Patch111:        pciutils-3.0.1-superh-support.patch
-Patch112:        pciutils-3.1.2-arm.patch
+Patch112:        pciutils-3.1.8-arm.patch
 
 %if !%{with bootstrap}
 Requires:	pciids
@@ -89,19 +83,16 @@ devices connected to the PCI bus.
 %patch21 -p1
 %patch22 -p1
 
-%patch101 -p1 -b .buf~
 %patch102 -p1 -b .scan~
 %patch103 -p1 -b .pread~
-#%patch106 -p1 -b .idpath~
 %patch108 -p1 -b .multilib~
-# fixme:?
-#%%patch109 -p1 -b .dird~
 %patch110 -p1 -b .sparc~
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
 
-
 %build
+sed -i -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' update-pciids.sh
+
 %if %{with diet}
 %make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" CC="diet gcc" lib/libpci.a
 cp lib/libpci.a libpci.a.diet
