@@ -27,15 +27,15 @@ Patch22:	pciutils-3.1.8-LDFLAGS.patch
 
 # Fedora patches
 # don't segfault on systems without PCI bus (rhbz #84146)
-Patch102:         pciutils-2.1.10-scan.patch
+Patch102:	pciutils-2.1.10-scan.patch
 # use pread/pwrite, ifdef check is obsolete nowadays
-Patch103:         pciutils-havepread.patch
+Patch103:	pciutils-havepread.patch
 # multilib support
-Patch108:         pciutils-3.0.2-multilib.patch
+Patch108:	pciutils-3.0.2-multilib.patch
 # platform support 3x
-Patch110:        pciutils-2.2.10-sparc-support.patch
-Patch111:        pciutils-3.0.1-superh-support.patch
-Patch112:        pciutils-3.1.8-arm.patch
+Patch110:	pciutils-2.2.10-sparc-support.patch
+Patch111:	pciutils-3.0.1-superh-support.patch
+Patch112:	pciutils-3.1.8-arm.patch
 
 %if !%{with bootstrap}
 Requires:	pciids
