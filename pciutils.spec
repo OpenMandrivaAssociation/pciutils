@@ -65,10 +65,7 @@ devices connected to the PCI bus.
 Summary:	Linux PCI development library
 Group:		Development/C
 Requires:	%{libname}  = %{version}-%{release}
-Provides:	libpci-devel = %{version}-%{release}
 Provides:	pci-devel = %{version}-%{release}
-Provides:	pciutils-devel = %{version}-%{release}
-Obsoletes:	pciutils-devel
 
 %description -n	%{devname}
 This package contains a library for inspecting and setting
