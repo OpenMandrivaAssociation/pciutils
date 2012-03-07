@@ -4,14 +4,14 @@
 %bcond_without	diet
 %bcond_without	uclibc
 
-%define major	3
-%define libname %mklibname pci %{major}
-%define develname %mklibname pci -d
+%define	major	3
+%define	libname	%mklibname pci %{major}
+%define	devname	%mklibname pci -d
 
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.9
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -61,7 +61,7 @@ Group:		System/Libraries
 This package contains a dynamic library for inspecting and setting
 devices connected to the PCI bus.
 
-%package -n	%{develname}
+%package -n	%{devname}
 Summary:	Linux PCI development library
 Group:		Development/C
 Requires:	%{libname}  = %{version}-%{release}
@@ -70,7 +70,7 @@ Provides:	pci-devel = %{version}-%{release}
 Provides:	pciutils-devel = %{version}-%{release}
 Obsoletes:	pciutils-devel
 
-%description -n	%{develname}
+%description -n	%{devname}
 This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
@@ -91,7 +91,7 @@ devices connected to the PCI bus.
 %patch112 -p1 -b .arm~
 
 %build
-sed -i -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' update-pciids.sh
+sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh
 
 %if %{with diet}
 %make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" CC="diet gcc" lib/libpci.a
@@ -113,7 +113,6 @@ make clean
 %make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=yes LDFLAGS="%{ldflags}"
 
 %install
-rm -rf %{buildroot}
 install -d %{buildroot}{%{_bindir},%{_mandir}/man8,%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install pcimodules lspci setpci %{buildroot}%{_bindir}
@@ -132,18 +131,7 @@ install -m 644 lib/{pci.h,header.h,config.h,types.h} %{buildroot}%{_includedir}/
 install -m 755 update-pciids.sh %{buildroot}%{_bindir}/
 install -m 644 lib/libpci.pc %{buildroot}%{_libdir}/pkgconfig/
 
-%clean
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
 %files
-%defattr(-,root,root)
 %doc README ChangeLog pciutils.lsm
 %{_mandir}/man8/*
 %{_bindir}/lspci
@@ -151,11 +139,9 @@ rm -rf %{buildroot}
 %{_bindir}/setpci
 
 %files -n %{libname}
-%defattr(-,root,root)
 %{_libdir}/*.so.%{major}*
 
-%files -n %{develname}
-%defattr(-,root,root)
+%files -n %{devname}
 %doc TODO
 %{_bindir}/update-pciids.sh
 %{_libdir}/*.a
