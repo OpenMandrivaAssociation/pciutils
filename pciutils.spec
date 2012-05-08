@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.9
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://mj.ucw.cz/pciutils.html
@@ -65,7 +65,7 @@ devices connected to the PCI bus.
 Summary:	Linux PCI development library
 Group:		Development/C
 Requires:	%{libname}  = %{version}-%{release}
-Provides:	pci-devel = %{version}-%{release}
+Provides:	pciutils-devel = %{version}-%{release}
 
 %description -n	%{devname}
 This package contains a library for inspecting and setting
