@@ -91,12 +91,12 @@ devices connected to the PCI bus.
 sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh
 
 %if %{with diet}
-%make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" lib/libpci.a
+%make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" DNS=no lib/libpci.a
 cp lib/libpci.a libpci.a.diet
 make clean
 %endif
 %if %{with uclibc}
-%make PREFIX=%{_prefix} ZLIB=no OPT="%{uclibc_cflags}" LDFLAGS="%{ldflags}" CC="%{uclibc_cc}" lib/libpci.a
+%make PREFIX=%{_prefix} ZLIB=no OPT="%{uclibc_cflags}" LDFLAGS="%{ldflags}" CC="%{uclibc_cc}" DNS=no lib/libpci.a
 cp lib/libpci.a libpci.a.uclibc
 make clean
 %endif
