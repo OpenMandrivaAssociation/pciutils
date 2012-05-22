@@ -44,7 +44,7 @@ Requires:	pciids
 BuildRequires:	dietlibc-devel
 %endif
 %if %{with uclibc}
-BuildRequires:	uClibc-devel
+BuildRequires:	uClibc-devel >= 0.9.33.2
 %endif
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
