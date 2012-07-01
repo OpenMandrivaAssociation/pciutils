@@ -23,7 +23,7 @@ Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 Patch20:	pciutils-2.2.6-noglibc.patch
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
-Patch22:	pciutils-3.1.8-LDFLAGS.patch
+Patch22:	pciutils-3.1.10-LDFLAGS.patch
 
 # Fedora patches
 # don't segfault on systems without PCI bus (rhbz #84146)
@@ -53,7 +53,7 @@ Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
 This package contains various utilities for inspecting and setting
 devices connected to the PCI bus. 
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	The PCI library
 Group:		System/Libraries
 
@@ -61,7 +61,7 @@ Group:		System/Libraries
 This package contains a dynamic library for inspecting and setting
 devices connected to the PCI bus.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Linux PCI development library
 Group:		Development/C
 Requires:	%{libname}  = %{version}-%{release}
