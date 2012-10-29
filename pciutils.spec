@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.10
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -45,7 +45,7 @@ Requires:	pciids
 BuildRequires:	dietlibc-devel
 %endif
 %if %{with uclibc}
-BuildRequires:	uClibc-devel >= 0.9.33.2
+BuildRequires:	uClibc-devel >= 0.9.33.2-15
 %endif
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
@@ -73,7 +73,10 @@ devices connected to the PCI bus.
 %package -n	%{devname}
 Summary:	Linux PCI development library
 Group:		Development/C
-Requires:	%{libname}  = %{version}-%{release}
+Requires:	%{libname} = %{version}-%{release}
+%if %{with uclibc}
+Requires:	uclibc-%{libname} = %{version}-%{release}
+%endif
 Provides:	pciutils-devel = %{version}-%{release}
 
 %description -n	%{devname}
