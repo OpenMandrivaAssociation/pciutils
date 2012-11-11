@@ -1,0 +1,15 @@
+diff -p -up ./lib/names-net.c.tv ./lib/names-net.c
+--- ./lib/names-net.c.tv	2008-05-14 01:40:39.000000000 +0200
++++ ./lib/names-net.c	2008-05-14 01:56:49.000000000 +0200
+@@ -197,7 +197,11 @@
+   res = res_query(dnsname, ns_c_in, ns_t_txt, answer, sizeof(answer));
+   if (res < 0)
+     {
++#ifdef __USE_DIETLIBC
++      a->debug("\tfailed\n");
++#else
+       a->debug("\tfailed, h_errno=%d\n", h_errno);
++#endif
+       return NULL;
+     }
+   if (dns_parse_packet(&ds, answer, res) < 0)

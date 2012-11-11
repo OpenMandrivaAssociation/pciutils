@@ -1,0 +1,21 @@
+diff -Naur pciutils-3.1.8/lib/configure pciutils-3.1.8.tpg/lib/configure
+--- pciutils-3.1.8/lib/configure	2011-11-07 21:13:10.000000000 +0000
++++ pciutils-3.1.8.tpg/lib/configure	2011-11-07 21:11:55.000000000 +0000
+@@ -30,7 +30,7 @@
+ 		proc=`/usr/sbin/lsdev -C -c processor -S available -F name | head -1`
+ 		cpu=`/usr/sbin/lsattr -F value -l $proc -a type | sed 's/_.*//'`
+ 	else
+-		cpu=`uname -m | sed 's/^i.86$/i386/;s/^sun4u$/sparc64/;s/^i86pc$/i386/;s/^BePC$/i386/;s/^BeMac$/powerpc/;s/^BeBox$/powerpc/'`
++		cpu=`uname -m | sed 's/^i.86$/i386/;s/^sun4u$/sparc64/;s/^i86pc$/i386/;s/^BePC$/i386/;s/^BeMac$/powerpc/;s/^BeBox$/powerpc/;s/^arm.*$/arm/'`
+ 	fi
+ 	if [ "$sys" = "GNU/kFreeBSD" -o "$sys" = "DragonFly" ]
+ 	then
+@@ -80,6 +80,8 @@
+ #define PCI_ARCH_SPARC
+ #elif defined(__sh__)
+ #define PCI_ARCH_SH
++#elif defined(__arm__)
++#define PCI_ARCH_ARM
+ #else
+ #error Unknown Arch
+ #endif
