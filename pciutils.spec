@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.1.10
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -150,7 +150,11 @@ ln -s libpci.so.%{major} %{buildroot}%{uclibc_root}%{_libdir}/libpci.so
 
 install -m 644 lib/{pci.h,header.h,config.h,types.h} %{buildroot}%{_includedir}/pci
 install -m 755 update-pciids.sh %{buildroot}%{_bindir}/
+%if "%_lib" == "lib"
 install -m 644 lib/libpci.pc %{buildroot}%{_libdir}/pkgconfig/
+%else
+sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
+%endif
 
 %files
 %doc README ChangeLog pciutils.lsm
