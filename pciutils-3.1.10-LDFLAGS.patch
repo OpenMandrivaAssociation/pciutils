@@ -1,29 +1,8 @@
-diff -Naur pciutils-3.1.10/Makefile pciutils-3.1.10.tpg/Makefile
---- pciutils-3.1.10/Makefile	2012-06-25 12:45:14.000000000 +0000
-+++ pciutils-3.1.10.tpg/Makefile	2012-07-01 12:25:48.000000000 +0000
-@@ -2,7 +2,8 @@
- # (c) 1998--2012 Martin Mares <mj@ucw.cz>
- 
- OPT=-O2
--CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
-+CFLAGS+=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
-+LDFLAGS+=
- 
- VERSION=3.1.10
- DATE=2012-06-25
-diff -Naur pciutils-3.1.10/lib/Makefile pciutils-3.1.10.tpg/lib/Makefile
---- pciutils-3.1.10/lib/Makefile	2011-01-07 21:04:28.000000000 +0000
-+++ pciutils-3.1.10.tpg/lib/Makefile	2012-07-01 12:28:07.000000000 +0000
-@@ -42,6 +42,8 @@
- OBJS += nbsd-libpci
- endif
- 
-+LDFLAGS+=
-+
- all: $(PCILIB) $(PCILIBPC)
- 
- ifeq ($(SHARED),no)
-@@ -52,7 +54,7 @@
+diff --git a/lib/Makefile b/lib/Makefile
+index 1eb06a5..3480b92 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -52,7 +52,7 @@ $(PCILIB): $(addsuffix .o,$(OBJS))
  else
  CFLAGS += -fPIC -fvisibility=hidden
  $(PCILIB): $(addsuffix .o,$(OBJS))
