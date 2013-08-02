@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.2.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Kernel and hardware
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -37,7 +37,8 @@ Patch110:	pciutils-2.2.10-sparc-support.patch
 Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
-
+# (tpg) add explicit requires on libname
+Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
 Requires:	pciids
 %endif
@@ -188,14 +189,14 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 %{_libdir}/pkgconfig/libpci.pc
 
 %changelog
-* Tue Dec 12 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 3.1.10-4
+* Tue Dec 12 2012 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 3.1.10-4
 - rebuild on ABF
 
-* Mon Oct 29 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 3.1.10-3
+* Mon Oct 29 2012 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 3.1.10-3
 + Revision: 820471
 - add missing dependency on uclibc library for devel package
 
-* Fri Sep 21 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 3.1.10-2
+* Fri Sep 21 2012 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 3.1.10-2
 + Revision: 817241
 - do dynamcally linked uClibc build
 
@@ -204,7 +205,7 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 - rediff patch 22
 - update to new version 3.1.10
 
-* Tue May 22 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 3.1.9-4
+* Tue May 22 2012 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 3.1.9-4
 + Revision: 800057
 - disable dns query support for diet & uclibc builds
 - do diet & uclibc builds with %%ldflags
@@ -217,7 +218,7 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
   and there's no point in providing again pci-devel, so I assumed
   the previous commit dropped wrongly pciutils-devel.
 
-* Wed Mar 07 2012 Per Øyvind Karlsen <peroyvind@mandriva.org> 3.1.9-2
+* Wed Mar 07 2012 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 3.1.9-2
 + Revision: 782660
 - drop excessive provides
 - cleanups
@@ -278,18 +279,18 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 - capabilities freeing fix integrated upstream
 - Rediff ldflags patch
 
-  + Per Øyvind Karlsen <peroyvind@mandriva.org>
+  + Per Ã˜yvind Karlsen <peroyvind@mandriva.org>
     - add support for building against uclibc
 
 * Tue Dec 15 2009 Eugeni Dodonov <eugeni@mandriva.com> 3.1.4-6mdv2010.1
 + Revision: 479071
 - Do not search for pci.ids in /usr/share/hwdata/pci.ids, as it is not there.
 
-* Mon Dec 14 2009 Per Øyvind Karlsen <peroyvind@mandriva.org> 3.1.4-5mdv2010.1
+* Mon Dec 14 2009 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 3.1.4-5mdv2010.1
 + Revision: 478486
 - disable changing of pci.ids path (P106),release was submitted a bit prematurely
 
-* Sat Dec 05 2009 Per Øyvind Karlsen <peroyvind@mandriva.org> 3.1.4-4mdv2010.1
+* Sat Dec 05 2009 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 3.1.4-4mdv2010.1
 + Revision: 473685
 - sync with fedora patches:
         o truncate too long names (P101, rhbz #205948)
@@ -404,7 +405,7 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 + Revision: 26643
 - build w/ozlib support since it's useless
 
-* Mon May 07 2007 Per Øyvind Karlsen <peroyvind@mandriva.org> 2.2.4-11mdv2008.0
+* Mon May 07 2007 Per Ã˜yvind Karlsen <peroyvind@mandriva.org> 2.2.4-11mdv2008.0
 + Revision: 23932
 - add zlib-devel to buildrequires to ensure building with zlib support
 - do not strip binaries with 'install', otherwise rpm won't be able to create -debug package
@@ -526,6 +527,6 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 * Wed Aug 04 2004 Thierry Vignaud <tvignaud@mandrakesoft.com> 2.1.11-6mdk
 - update pci.ids
 
-* Sat Jul 24 2004 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 2.1.11-5mdk
+* Sat Jul 24 2004 Per Ã˜yvind Karlsen <peroyvind@linux-mandrake.com> 2.1.11-5mdk
 - rebuild (to update pciids)
 - cosmetics
