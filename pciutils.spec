@@ -132,7 +132,7 @@ mv lib/libpci.so.%{major}* glibc
 
 
 %install
-install -d %{buildroot}{%{_bindir},%{_mandir}/man8,%{_libdir}/pkgconfig,%{_includedir}/pci}
+install -d %{buildroot}{%{_bindir},%{_sbindir},%{_mandir}/man8,%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install pcimodules lspci setpci %{buildroot}%{_bindir}
 install -m644 pcimodules.man lspci.8 setpci.8 %{buildroot}%{_mandir}/man8
