@@ -159,7 +159,7 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 %files
 %doc README ChangeLog pciutils.lsm
 %{_mandir}/man8/*
-%{_bindir}/update-pciids.sh
+%{_sbindir}/update-pciids.sh
 %{_bindir}/lspci
 %{_bindir}/pcimodules
 %{_bindir}/setpci
