@@ -149,7 +149,7 @@ ln -s libpci.so.%{major} %{buildroot}%{uclibc_root}%{_libdir}/libpci.so
 %endif
 
 install -m 644 lib/{pci.h,header.h,config.h,types.h} %{buildroot}%{_includedir}/pci
-install -m 755 update-pciids.sh %{buildroot}%{_bindir}/
+install -m 755 update-pciids.sh %{buildroot}%{_sbindir}/
 %if "%_lib" == "lib"
 install -m 644 lib/libpci.pc %{buildroot}%{_libdir}/pkgconfig/
 %else
@@ -159,6 +159,7 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 %files
 %doc README ChangeLog pciutils.lsm
 %{_mandir}/man8/*
+%{_bindir}/update-pciids.sh
 %{_bindir}/lspci
 %{_bindir}/pcimodules
 %{_bindir}/setpci
@@ -173,7 +174,6 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 
 %files -n %{devname}
 %doc TODO
-%{_bindir}/update-pciids.sh
 %{_libdir}/*.a
 %{_libdir}/*.so
 %if %{with diet}
