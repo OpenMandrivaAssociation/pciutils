@@ -1,7 +1,7 @@
 # when updating, please rebuild ldetect as it is compiled against this static library
 
 %bcond_with	bootstrap
-%bcond_without	diet
+%bcond_without	dietlibc
 %bcond_without	uclibc
 
 %define	major	3
@@ -41,7 +41,7 @@ Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
 Requires:	pciids
 %endif
-%if %{with diet}
+%if %{with dietlibc}
 BuildRequires:	dietlibc-devel
 %endif
 %if %{with uclibc}
@@ -103,7 +103,7 @@ devices connected to the PCI bus.
 %build
 sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh
 
-%if %{with diet}
+%if %{with dietlibc}
 %make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" DNS=no lib/libpci.a
 mkdir -p dietlibc
 mv lib/libpci.a dietlibc/libpci.a
@@ -139,7 +139,7 @@ install -m644 pcimodules.man lspci.8 setpci.8 %{buildroot}%{_mandir}/man8
 install -m644 glibc/libpci.a -D %{buildroot}%{_libdir}/libpci.a
 install -m755 glibc/libpci.so.%{major}.* %{buildroot}%{_libdir}
 ln -s libpci.so.%{major} %{buildroot}%{_libdir}/libpci.so
-%if %{with diet}
+%if %{with dietlibc}
 install -m644 dietlibc/libpci.a -D %{buildroot}%{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
 %endif
 %if %{with uclibc}
@@ -176,7 +176,7 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 %doc TODO
 %{_libdir}/*.a
 %{_libdir}/*.so
-%if %{with diet}
+%if %{with dietlibc}
 %{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
 %endif
 %if %{with uclibc}
