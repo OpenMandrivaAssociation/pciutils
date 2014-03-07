@@ -36,6 +36,7 @@ Patch110:	pciutils-2.2.10-sparc-support.patch
 Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
+Patch114:	pciutils-3.2.1-arm64.patch
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}

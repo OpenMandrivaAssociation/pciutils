@@ -1,0 +1,21 @@
+diff --git a/lib/configure b/lib/configure
+index bce4759..aea6eb6 100755
+--- a/lib/configure
++++ b/lib/configure
+@@ -83,6 +83,9 @@ cat >$c <<EOF
+ #elif defined(__arm__)
+ #define PCI_ARCH_ARM
+ #else
++#elif defined(__aarch64__)
++#define PCI_ARCH_ARM
++#else
+ #error Unknown Arch
+ #endif
+ #define PCI_OS_LINUX
+@@ -277,4 +280,4 @@ echo >>$m 'PCILIBPC=$(LIBNAME).pc'
+ 
+ echo >>$c "#define PCILIB_VERSION \"$VERSION\""
+ echo >>$cm "#define PCILIB_VERSION \"$VERSION\""
+-sed '/"/{s/^#define \([^ ]*\) "\(.*\)"$/\1=\2/;p;d;};s/^#define \(.*\)/\1=1/' <$cm >>$m
+\ No newline at end of file
++sed '/"/{s/^#define \([^ ]*\) "\(.*\)"$/\1=\2/;p;d;};s/^#define \(.*\)/\1=1/' <$cm >>$m
