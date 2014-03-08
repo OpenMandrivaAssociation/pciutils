@@ -100,6 +100,7 @@ devices connected to the PCI bus.
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
+%patch114 -p1 -b .arm64~
 
 %build
 sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh
