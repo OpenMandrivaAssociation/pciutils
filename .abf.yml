@@ -1,5 +1,2 @@
-removed_sources:
-  pciutils-3.1.10.tar.gz: 01eed212edfa5bbfedcf86d177ae2df4a4007d61
-  pciutils-3.2.0.tar.gz: 6d820bc0b7e14547c44f9df572bd08232f1ce133
 sources:
-  pciutils-3.2.1.tar.gz: 06a92123907d717efb703c3e90a0c46e1d0beef4
+  pciutils-3.3.0.tar.xz: ee2cc84dc16e0d4238236344ffd92b683563624c
