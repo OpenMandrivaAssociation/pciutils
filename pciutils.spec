@@ -1,12 +1,12 @@
 # when updating, please rebuild ldetect as it is compiled against this static library
 
-%bcond_with	bootstrap
-%bcond_without	dietlibc
-%bcond_without	uclibc
+%bcond_with bootstrap
+%bcond_without dietlibc
+%bcond_without uclibc
 
-%define	major	3
-%define	libname	%mklibname pci %{major}
-%define	devname	%mklibname pci -d
+%define	major 3
+%define	libname %mklibname pci %{major}
+%define	devname %mklibname pci -d
 
 Summary:	PCI bus related utilities
 Name:		pciutils
@@ -19,24 +19,24 @@ Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.xz
 Patch0:		pciutils-3.0.3-use-stdint.patch
 Patch10:	pciutils-3.1.2-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
-# allow build with dietlibc, using sycall() and sys/io.h
-Patch20:	pciutils-2.2.6-noglibc.patch
+%if %{with dietlibc}
 # allow build with dietlibc, not using unsupported features:
 Patch21:	pciutils-3.0.3-fix-compiliing-w-diet.patch
-Patch22:	pciutils-3.1.10-LDFLAGS.patch
+%endif
+Patch22:	pciutils-3.3.0-LDFLAGS.patch
 # Fedora patches
 # don't segfault on systems without PCI bus (rhbz #84146)
 Patch102:	pciutils-2.1.10-scan.patch
 # use pread/pwrite, ifdef check is obsolete nowadays
 Patch103:	pciutils-havepread.patch
 # multilib support
-Patch108:	pciutils-3.0.2-multilib.patch
+Patch108:	pciutils-3.3.0-multilib.patch
 # platform support 3x
 Patch110:	pciutils-2.2.10-sparc-support.patch
 Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
-Patch114:	pciutils-3.2.1-arm64.patch
+Patch114:	pciutils-3.3.0-arm64.patch
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
@@ -63,6 +63,7 @@ Group:		System/Libraries
 This package contains a dynamic library for inspecting and setting
 devices connected to the PCI bus.
 
+%if %{with uclibc}
 %package -n	uclibc-%{libname}
 Summary:	uClibc linked version of the PCI library
 Group:		System/Libraries
@@ -70,6 +71,7 @@ Group:		System/Libraries
 %description -n	uclibc-%{libname}
 This package contains a dynamic uClibc linked library for inspecting and
 setting devices connected to the PCI bus.
+%endif
 
 %package -n	%{devname}
 Summary:	Linux PCI development library
@@ -89,8 +91,9 @@ devices connected to the PCI bus.
 %patch0 -p0
 %patch10 -p1
 %patch11 -p0
-%patch20 -p1
+%if %{with dietlibc}
 %patch21 -p1
+%endif
 %patch22 -p1
 
 %patch102 -p1 -b .scan~

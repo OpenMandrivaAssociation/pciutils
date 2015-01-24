@@ -1,0 +1,12 @@
+diff -Naur pciutils-3.3.0/lib/configure pciutils-3.3.0.tpg/lib/configure
+--- pciutils-3.3.0/lib/configure	2015-01-24 15:08:08.000000000 +0000
++++ pciutils-3.3.0.tpg/lib/configure	2015-01-24 15:09:30.788666837 +0000
+@@ -83,6 +83,8 @@
+ #define PCI_ARCH_SH
+ #elif defined(__arm__)
+ #define PCI_ARCH_ARM
++#elif defined(__aarch64__)
++#define PCI_ARCH_ARM
+ #else
+ #error Unknown Arch
+ #endif
