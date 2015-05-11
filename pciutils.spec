@@ -10,8 +10,8 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.3.0
-Release:	2
+Version:	3.3.1
+Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -37,8 +37,6 @@ Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
 Patch114:	pciutils-3.3.0-arm64.patch
-Patch115:	0001-Fix-small-memory-leak-in-names-cache.patch
-Patch116:	0002-Fixed-memory-allocation-bug-in-name-cache-path-code.patch
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
@@ -106,8 +104,6 @@ devices connected to the PCI bus.
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
 %patch114 -p1 -b .arm64~
-%patch115 -p1
-%patch116 -p1
 
 %build
 sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh
