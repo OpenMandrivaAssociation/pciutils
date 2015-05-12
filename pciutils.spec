@@ -15,9 +15,9 @@ Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.xz
+Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-3.0.3-use-stdint.patch
-Patch10:	pciutils-3.1.2-pcimodules.patch
+Patch10:	pciutils-3.3.1-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 %if %{with dietlibc}
 # allow build with dietlibc, not using unsupported features:
@@ -28,7 +28,8 @@ Patch22:	pciutils-3.3.0-LDFLAGS.patch
 # don't segfault on systems without PCI bus (rhbz #84146)
 Patch102:	pciutils-2.1.10-scan.patch
 # use pread/pwrite, ifdef check is obsolete nowadays
-Patch103:	pciutils-havepread.patch
+# (tpg) i have feeling this patch is for old uclibc that does not support pread
+#Patch103:	pciutils-havepread.patch
 # multilib support
 Patch108:	pciutils-3.3.0-multilib.patch
 # platform support 3x
@@ -36,7 +37,6 @@ Patch110:	pciutils-2.2.10-sparc-support.patch
 Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
-Patch114:	pciutils-3.3.0-arm64.patch
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
@@ -97,13 +97,11 @@ devices connected to the PCI bus.
 %patch22 -p1
 
 %patch102 -p1 -b .scan~
-%patch103 -p1 -b .pread~
 %patch108 -p1 -b .multilib~
 %patch110 -p1 -b .sparc~
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
-%patch114 -p1 -b .arm64~
 
 %build
 sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh

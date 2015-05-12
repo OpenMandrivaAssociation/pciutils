@@ -1,7 +1,7 @@
-diff -Naur pciutils-3.1.2/Makefile pciutils-3.1.2.tpg/Makefile
---- pciutils-3.1.2/Makefile	2009-02-01 16:49:22.000000000 +0000
-+++ pciutils-3.1.2.tpg/Makefile	2009-02-10 06:07:28.000000000 +0000
-@@ -52,7 +52,7 @@
+diff -Naur pciutils-3.3.1/Makefile pciutils-3.3.1.tpg/Makefile
+--- pciutils-3.3.1/Makefile	2015-04-09 14:39:00.000000000 +0000
++++ pciutils-3.3.1.tpg/Makefile	2015-05-12 18:16:18.821903353 +0000
+@@ -59,7 +59,7 @@
  
  export
  
@@ -10,17 +10,17 @@ diff -Naur pciutils-3.1.2/Makefile pciutils-3.1.2.tpg/Makefile
  
  lib/$(PCILIB): $(PCIINC) force
  	$(MAKE) -C lib all
-@@ -62,6 +62,7 @@
+@@ -69,6 +69,7 @@
  lib/config.h lib/config.mk:
  	cd lib && ./configure
  
 +pcimodules: pcimodules.o common.o lib/$(PCILIB)
- lspci: lspci.o ls-vpd.o ls-caps.o ls-ecaps.o ls-kernel.o ls-tree.o ls-map.o common.o lib/$(PCILIB)
+ lspci: lspci.o ls-vpd.o ls-caps.o ls-caps-vendor.o ls-ecaps.o ls-kernel.o ls-tree.o ls-map.o common.o lib/$(PCILIB)
  setpci: setpci.o common.o lib/$(PCILIB)
  
-diff -Naur pciutils-3.1.2/pcimodules.c pciutils-3.1.2.tpg/pcimodules.c
---- pciutils-3.1.2/pcimodules.c	1970-01-01 00:00:00.000000000 +0000
-+++ pciutils-3.1.2.tpg/pcimodules.c	2009-02-10 06:04:41.000000000 +0000
+diff -Naur pciutils-3.3.1/pcimodules.c pciutils-3.3.1.tpg/pcimodules.c
+--- pciutils-3.3.1/pcimodules.c	1970-01-01 00:00:00.000000000 +0000
++++ pciutils-3.3.1.tpg/pcimodules.c	2015-05-12 18:17:02.685101512 +0000
 @@ -0,0 +1,185 @@
 +/*
 + *	pcimodules:  Load all kernel modules for PCI device currently
@@ -207,9 +207,9 @@ diff -Naur pciutils-3.1.2/pcimodules.c pciutils-3.1.2.tpg/pcimodules.c
 +	match_pci_modules();
 +	return 0;
 +}
-diff -Naur pciutils-3.1.2/pcimodules.man pciutils-3.1.2.tpg/pcimodules.man
---- pciutils-3.1.2/pcimodules.man	1970-01-01 00:00:00.000000000 +0000
-+++ pciutils-3.1.2.tpg/pcimodules.man	2009-02-10 06:04:41.000000000 +0000
+diff -Naur pciutils-3.3.1/pcimodules.man pciutils-3.3.1.tpg/pcimodules.man
+--- pciutils-3.3.1/pcimodules.man	1970-01-01 00:00:00.000000000 +0000
++++ pciutils-3.3.1.tpg/pcimodules.man	2015-05-12 18:17:05.877189055 +0000
 @@ -0,0 +1,92 @@
 +.TH pcimodules 8 "@TODAY@" "@VERSION@" "Linux PCI Utilities"
 +.IX pcimodules
