@@ -1,0 +1,35 @@
+From 8ab74b693de8b22f6f9b48ac80b6a3a013ddc55a Mon Sep 17 00:00:00 2001
+From: Lucas Stach <dev@lynxeye.de>
+Date: Mon, 13 Apr 2015 20:42:25 +0200
+Subject: Fix broken backward compat struct translation for pci filters
+
+This seems to be a copy&paste error in both directions of the
+compat translation.
+
+Signed-off-by: Lucas Stach <dev@lynxeye.de>
+
+diff --git a/lib/filter.c b/lib/filter.c
+index 55eb682..375293a 100644
+--- a/lib/filter.c
++++ b/lib/filter.c
+@@ -163,7 +163,7 @@ pci_filter_import_v30(struct pci_filter_v30 *old, struct pci_filter *new)
+ {
+   new->domain = old->domain;
+   new->bus = old->bus;
+-  new->slot = old->bus;
++  new->slot = old->slot;
+   new->func = old->func;
+   new->vendor = old->vendor;
+   new->device = old->device;
+@@ -175,7 +175,7 @@ pci_filter_export_v30(struct pci_filter *new, struct pci_filter_v30 *old)
+ {
+   old->domain = new->domain;
+   old->bus = new->bus;
+-  old->slot = new->bus;
++  old->slot = new->slot;
+   old->func = new->func;
+   old->vendor = new->vendor;
+   old->device = new->device;
+-- 
+cgit v0.10.2
+

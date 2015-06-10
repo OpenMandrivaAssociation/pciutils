@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.3.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -37,6 +37,7 @@ Patch110:	pciutils-2.2.10-sparc-support.patch
 Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
+Patch114:	0001-Fix-broken-backward-compat-struct-translation-for-pci-filters.patch
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
@@ -102,6 +103,7 @@ devices connected to the PCI bus.
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
+%patch114 -p1
 
 %build
 sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh
