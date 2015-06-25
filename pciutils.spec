@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.3.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -72,15 +72,25 @@ Group:		System/Libraries
 %description -n	uclibc-%{libname}
 This package contains a dynamic uClibc linked library for inspecting and
 setting devices connected to the PCI bus.
+
+%package -n	uclibc%{devname}
+Summary:	Linux PCI development library
+Group:		Development/C
+Requires:	uclibc-%{libname} = %{version}-%{release}
+Requires:	%{devname} = %{version}-%{release}
+Provides:	uclibc-pciutils-devel = %{version}-%{release}
+Conflicts:	%{devname} < 3.3.1-3
+
+%description -n	uclibc-%{devname}
+This package contains a library for inspecting and setting
+devices connected to the PCI bus.
+
 %endif
 
 %package -n	%{devname}
 Summary:	Linux PCI development library
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
-%if %{with uclibc}
-Requires:	uclibc-%{libname} = %{version}-%{release}
-%endif
 Provides:	pciutils-devel = %{version}-%{release}
 
 %description -n	%{devname}
@@ -174,6 +184,10 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 %if %{with uclibc}
 %files -n uclibc-%{libname}
 %{uclibc_root}%{_libdir}/*.so.%{major}*
+
+%files -n uclibc-%{devname}
+%{uclibc_root}%{_libdir}/libpci.a
+%{uclibc_root}%{_libdir}/libpci.so
 %endif
 
 %files -n %{devname}
@@ -182,10 +196,6 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 %{_libdir}/*.so
 %if %{with dietlibc}
 %{_prefix}/lib/dietlibc/lib-%{_arch}/libpci.a
-%endif
-%if %{with uclibc}
-%{uclibc_root}%{_libdir}/libpci.a
-%{uclibc_root}%{_libdir}/libpci.so
 %endif
 %dir %{_includedir}/pci
 %{_includedir}/pci/*.h
