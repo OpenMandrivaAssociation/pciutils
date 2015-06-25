@@ -73,7 +73,7 @@ Group:		System/Libraries
 This package contains a dynamic uClibc linked library for inspecting and
 setting devices connected to the PCI bus.
 
-%package -n	uclibc%{devname}
+%package -n	uclibc-%{devname}
 Summary:	Linux PCI development library
 Group:		Development/C
 Requires:	uclibc-%{libname} = %{version}-%{release}
