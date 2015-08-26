@@ -7,6 +7,7 @@
 %define	major 3
 %define	libname %mklibname pci %{major}
 %define	devname %mklibname pci -d
+%define _disable_lto 1
 
 Summary:	PCI bus related utilities
 Name:		pciutils
