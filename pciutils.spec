@@ -49,6 +49,8 @@ BuildRequires:	dietlibc-devel
 %if %{with uclibc}
 BuildRequires:	uClibc-devel >= 0.9.33.2-15
 %endif
+BuildRequires:	pkgconfig(libudev)
+BuildRequires:	pkgconfig(libkmod)
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
 
@@ -133,14 +135,14 @@ mv lib/libpci.so.%{major}* uclibc
 make clean
 %endif
 
-%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=no DNS=no LDFLAGS="%{ldflags}" lib/libpci.a 
+%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=no DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
 mkdir -p glibc
 mv lib/libpci.a glibc/libpci.a
 make clean
 
 # do not build with zlib support since it's useless (only needed if we compress
 # pci.ids which we cannot do since hal mmaps it for memory saving reason)
-%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=yes LDFLAGS="%{ldflags}"
+%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=yes LIBKMOD=yes HWDB=yes LDFLAGS="%{ldflags}"
 mv lib/libpci.so.%{major}* glibc
 
 %install
