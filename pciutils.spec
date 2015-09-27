@@ -1,7 +1,7 @@
 # when updating, please rebuild ldetect as it is compiled against this static library
 
 %bcond_with bootstrap
-%bcond_without dietlibc
+%bcond_with dietlibc
 %bcond_with uclibc
 
 %define	major 3
@@ -38,6 +38,7 @@ Patch110:	pciutils-2.2.10-sparc-support.patch
 Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
+Patch114:	pciutils-3.3.0-arm64.patch
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
@@ -114,6 +115,7 @@ devices connected to the PCI bus.
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
+%patch114 -p1 -b .arm64
 
 %build
 sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
@@ -135,14 +137,14 @@ mv lib/libpci.so.%{major}* uclibc
 make clean
 %endif
 
-%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=no DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
+%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=no DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
 mkdir -p glibc
 mv lib/libpci.a glibc/libpci.a
-make clean
+make clean CC=%{__cc}
 
 # do not build with zlib support since it's useless (only needed if we compress
 # pci.ids which we cannot do since hal mmaps it for memory saving reason)
-%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" ZLIB=no SHARED=yes LIBKMOD=yes HWDB=yes LDFLAGS="%{ldflags}"
+%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=yes LIBKMOD=yes HWDB=yes LDFLAGS="%{ldflags}"
 mv lib/libpci.so.%{major}* glibc
 
 %install
