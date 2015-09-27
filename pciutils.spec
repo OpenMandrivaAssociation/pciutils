@@ -11,8 +11,8 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.3.1
-Release:	5
+Version:	3.4.0
+Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -38,7 +38,6 @@ Patch110:	pciutils-2.2.10-sparc-support.patch
 Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
-Patch114:	0001-Fix-broken-backward-compat-struct-translation-for-pci-filters.patch
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{version}-%{release}
 %if !%{with bootstrap}
@@ -85,7 +84,6 @@ Conflicts:	%{devname} < 3.3.1-3
 %description -n	uclibc-%{devname}
 This package contains a library for inspecting and setting
 devices connected to the PCI bus.
-
 %endif
 
 %package -n	%{devname}
@@ -114,10 +112,9 @@ devices connected to the PCI bus.
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
-%patch114 -p1
 
 %build
-sed -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' -i update-pciids.sh
+sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
 
 %if %{with dietlibc}
 %make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" DNS=no lib/libpci.a
