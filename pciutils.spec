@@ -10,7 +10,7 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.5.2
+Version:	3.5.3
 Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
@@ -37,7 +37,7 @@ Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
 Patch114:	pciutils-3.3.0-arm64.patch
 # (tpg) add explicit requires on libname
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
 %if !%{with bootstrap}
 Requires:	pciids
 %endif
@@ -130,7 +130,7 @@ sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
 %endif
 
 %files
-%doc README ChangeLog pciutils.lsm
+%doc README pciutils.lsm
 %{_mandir}/man8/*
 %{_sbindir}/update-pciids.sh
 %{_bindir}/lspci
