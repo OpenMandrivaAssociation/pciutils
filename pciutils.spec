@@ -16,7 +16,6 @@ License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.xz
-Patch0:		pciutils-3.0.3-use-stdint.patch
 Patch10:	pciutils-3.3.1-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 %if %{with dietlibc}
@@ -73,7 +72,6 @@ devices connected to the PCI bus.
 
 %prep
 %setup -q
-%patch0 -p0
 %patch10 -p1
 %patch11 -p0
 %if %{with dietlibc}
