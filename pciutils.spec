@@ -10,12 +10,12 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.5.3
+Version:	3.5.4
 Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.xz
 Patch0:		pciutils-3.0.3-use-stdint.patch
 Patch10:	pciutils-3.3.1-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
@@ -99,7 +99,7 @@ mv lib/libpci.a dietlibc/libpci.a
 make clean
 %endif
 
-%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=no DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
+%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=no LIBKMOD=yes DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
 mkdir -p glibc
 mv lib/libpci.a glibc/libpci.a
 make clean CC=%{__cc}
