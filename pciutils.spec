@@ -10,7 +10,7 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.5.6
+Version:	3.6.0
 Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
