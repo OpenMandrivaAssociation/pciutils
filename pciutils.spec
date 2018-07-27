@@ -3,19 +3,19 @@
 %bcond_with bootstrap
 %bcond_with dietlibc
 
-%define	major 3
-%define	libname %mklibname pci %{major}
-%define	devname %mklibname pci -d
+%define major 4
+%define libname %mklibname pci %{major}
+%define devname %mklibname pci -d
 %define _disable_lto 1
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.6.0
+Version:	3.6.1
 Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.xz
 Patch10:	pciutils-3.3.1-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 %if %{with dietlibc}
@@ -35,6 +35,7 @@ Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
 Patch114:	pciutils-3.3.0-arm64.patch
+
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{EVRD}
 %if !%{with bootstrap}
@@ -52,21 +53,21 @@ Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
 This package contains various utilities for inspecting and setting
 devices connected to the PCI bus.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	The PCI library
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 This package contains a dynamic library for inspecting and setting
 devices connected to the PCI bus.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Linux PCI development library
 Group:		Development/C
-Requires:	%{libname} = %{version}-%{release}
-Provides:	pciutils-devel = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
+Provides:	pciutils-devel = %{EVRD}
 
-%description -n	%{devname}
+%description -n %{devname}
 This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
