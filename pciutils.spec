@@ -3,7 +3,7 @@
 %bcond_with bootstrap
 %bcond_with dietlibc
 
-%define major 4
+%define major 3
 %define libname %mklibname pci %{major}
 %define devname %mklibname pci -d
 %define _disable_lto 1
