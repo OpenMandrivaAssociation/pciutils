@@ -93,7 +93,7 @@ devices connected to the PCI bus.
 %patch113 -p1 -b .keep_static~
 %patch114 -p1 -b .arm64
 %patch150 -p1
-%patch1501 -p1
+%patch151 -p1
 
 %build
 sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
