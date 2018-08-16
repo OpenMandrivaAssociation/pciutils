@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.6.2
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -36,10 +36,15 @@ Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
 Patch114:	pciutils-3.3.0-arm64.patch
 
+#change pci.ids directory to hwdata, fedora/rhel specific
+Patch150:	pciutils-2.2.1-idpath.patch
+#add support for directory with another pci.ids, rejected by upstream, rhbz#195327
+Patch151:	pciutils-dir-d.patch
+
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{EVRD}
 %if !%{with bootstrap}
-Requires:	pciids
+Requires:	hwdata >= 0.314
 %endif
 %if %{with dietlibc}
 BuildRequires:	dietlibc-devel
@@ -87,25 +92,27 @@ devices connected to the PCI bus.
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
 %patch114 -p1 -b .arm64
+%patch150 -p1
+%patch1501 -p1
 
 %build
 sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
 
 %if %{with dietlibc}
-%make PREFIX=%{_prefix} ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" DNS=no lib/libpci.a
+%make PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" DNS=no lib/libpci.a
 mkdir -p dietlibc
 mv lib/libpci.a dietlibc/libpci.a
 make clean
 %endif
 
-%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=no LIBKMOD=yes DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
+%make PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=no LIBKMOD=yes DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
 mkdir -p glibc
 mv lib/libpci.a glibc/libpci.a
 make clean CC=%{__cc}
 
 # do not build with zlib support since it's useless (only needed if we compress
 # pci.ids which we cannot do since hal mmaps it for memory saving reason)
-%make PREFIX=%{_prefix} OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=yes LIBKMOD=yes HWDB=yes LDFLAGS="%{ldflags}"
+%make PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=yes LIBKMOD=yes HWDB=yes LDFLAGS="%{ldflags}"
 mv lib/libpci.so.%{major}* glibc
 
 %install
@@ -122,10 +129,10 @@ install -m644 dietlibc/libpci.a -D %{buildroot}%{_prefix}/lib/dietlibc/lib-%{_ar
 
 install -m 644 lib/{pci.h,header.h,config.h,types.h} %{buildroot}%{_includedir}/pci
 install -m 755 update-pciids.sh %{buildroot}%{_sbindir}/
-%if "%_lib" == "lib"
+%if "%_{lib}" == "lib"
 install -m 644 lib/libpci.pc %{buildroot}%{_libdir}/pkgconfig/
 %else
-sed -e "s,/lib,/%_lib,g" lib/libpci.pc >%buildroot%_libdir/pkgconfig/libpci.pc
+sed -e "s,/lib,/%{_lib},g" lib/libpci.pc >%{buildroot}%{_libdir}/pkgconfig/libpci.pc
 %endif
 
 %files
