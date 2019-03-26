@@ -11,7 +11,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.6.2
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -51,6 +51,7 @@ BuildRequires:	dietlibc-devel
 %endif
 BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(libkmod)
+BuildRequires:	pkgconfig(zlib)
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
 
@@ -99,20 +100,20 @@ devices connected to the PCI bus.
 sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
 
 %if %{with dietlibc}
-%make PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" DNS=no lib/libpci.a
+%make_build PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" ZLIB=no OPT="-Os -D__USE_DIETLIBC" LDFLAGS="%{ldflags}" CC="diet gcc" DNS=no lib/libpci.a
 mkdir -p dietlibc
 mv lib/libpci.a dietlibc/libpci.a
 make clean
 %endif
 
-%make PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=no LIBKMOD=yes DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
+%make_build PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=no LIBKMOD=yes DNS=no LDFLAGS="%{ldflags}" lib/libpci.a
 mkdir -p glibc
 mv lib/libpci.a glibc/libpci.a
 make clean CC=%{__cc}
 
 # do not build with zlib support since it's useless (only needed if we compress
 # pci.ids which we cannot do since hal mmaps it for memory saving reason)
-%make PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=yes LIBKMOD=yes HWDB=yes LDFLAGS="%{ldflags}"
+%make_build PREFIX=%{_prefix} LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" OPT="%{optflags} -fPIC" CC=%{__cc} ZLIB=no SHARED=yes LIBKMOD=yes HWDB=yes LDFLAGS="%{ldflags}"
 mv lib/libpci.so.%{major}* glibc
 
 %install
