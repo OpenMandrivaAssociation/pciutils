@@ -51,7 +51,6 @@ BuildRequires:	dietlibc-devel
 %endif
 BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(libkmod)
-BuildRequires:	pkgconfig(zlib)
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
 
