@@ -6,12 +6,11 @@
 %define major 3
 %define libname %mklibname pci %{major}
 %define devname %mklibname pci -d
-%define _disable_lto 1
 
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.6.2
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
