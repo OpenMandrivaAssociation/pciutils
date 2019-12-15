@@ -10,7 +10,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.6.2
-Release:	5
+Release:	6
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -34,6 +34,7 @@ Patch111:	pciutils-3.0.1-superh-support.patch
 Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
 Patch114:	pciutils-3.3.0-arm64.patch
+Patch115:	pciutils-3.6.2-portability.patch
 
 #change pci.ids directory to hwdata, fedora/rhel specific
 Patch150:	pciutils-2.2.1-idpath.patch
@@ -90,7 +91,8 @@ devices connected to the PCI bus.
 %patch111 -p1 -b .superh~
 %patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
-%patch114 -p1 -b .arm64
+%patch114 -p1 -b .arm64~
+%patch115 -p1 -b .port~
 %patch150 -p1
 %patch151 -p1
 
