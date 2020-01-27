@@ -1,16 +1,16 @@
-diff -Naur pciutils-3.3.1/Makefile pciutils-3.3.1.tpg/Makefile
---- pciutils-3.3.1/Makefile	2015-04-09 14:39:00.000000000 +0000
-+++ pciutils-3.3.1.tpg/Makefile	2015-05-12 18:16:18.821903353 +0000
-@@ -59,7 +59,7 @@
+diff -up pciutils-3.6.4/Makefile.p10~ pciutils-3.6.4/Makefile
+--- pciutils-3.6.4/Makefile.p10~	2020-01-25 20:42:39.000000000 +0100
++++ pciutils-3.6.4/Makefile	2020-01-27 04:26:15.411896628 +0100
+@@ -59,7 +59,7 @@ PCIINC_INS=lib/config.h lib/header.h lib
  
  export
  
--all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS)
-+all: lib/$(PCILIB) lspci pcimodules setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS)
+-all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 pci.ids.5 update-pciids update-pciids.8 $(PCI_IDS)
++all: lib/$(PCILIB) lspci setpci pcimodules example lspci.8 setpci.8 pcilib.7 pci.ids.5 update-pciids update-pciids.8 $(PCI_IDS)
  
  lib/$(PCILIB): $(PCIINC) force
  	$(MAKE) -C lib all
-@@ -69,6 +69,7 @@
+@@ -69,6 +69,7 @@ force:
  lib/config.h lib/config.mk:
  	cd lib && ./configure
  
@@ -18,9 +18,9 @@ diff -Naur pciutils-3.3.1/Makefile pciutils-3.3.1.tpg/Makefile
  lspci: lspci.o ls-vpd.o ls-caps.o ls-caps-vendor.o ls-ecaps.o ls-kernel.o ls-tree.o ls-map.o common.o lib/$(PCILIB)
  setpci: setpci.o common.o lib/$(PCILIB)
  
-diff -Naur pciutils-3.3.1/pcimodules.c pciutils-3.3.1.tpg/pcimodules.c
---- pciutils-3.3.1/pcimodules.c	1970-01-01 00:00:00.000000000 +0000
-+++ pciutils-3.3.1.tpg/pcimodules.c	2015-05-12 18:17:02.685101512 +0000
+diff -up pciutils-3.6.4/pcimodules.c.p10~ pciutils-3.6.4/pcimodules.c
+--- pciutils-3.6.4/pcimodules.c.p10~	2020-01-27 04:26:03.111897225 +0100
++++ pciutils-3.6.4/pcimodules.c	2020-01-27 04:26:03.111897225 +0100
 @@ -0,0 +1,185 @@
 +/*
 + *	pcimodules:  Load all kernel modules for PCI device currently
@@ -207,9 +207,9 @@ diff -Naur pciutils-3.3.1/pcimodules.c pciutils-3.3.1.tpg/pcimodules.c
 +	match_pci_modules();
 +	return 0;
 +}
-diff -Naur pciutils-3.3.1/pcimodules.man pciutils-3.3.1.tpg/pcimodules.man
---- pciutils-3.3.1/pcimodules.man	1970-01-01 00:00:00.000000000 +0000
-+++ pciutils-3.3.1.tpg/pcimodules.man	2015-05-12 18:17:05.877189055 +0000
+diff -up pciutils-3.6.4/pcimodules.man.p10~ pciutils-3.6.4/pcimodules.man
+--- pciutils-3.6.4/pcimodules.man.p10~	2020-01-27 04:26:03.111897225 +0100
++++ pciutils-3.6.4/pcimodules.man	2020-01-27 04:26:03.111897225 +0100
 @@ -0,0 +1,92 @@
 +.TH pcimodules 8 "@TODAY@" "@VERSION@" "Linux PCI Utilities"
 +.IX pcimodules

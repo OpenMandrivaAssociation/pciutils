@@ -9,12 +9,12 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.6.2
-Release:	6
+Version:	3.6.4
+Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
-Url:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-Source0:	ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+Url:		https://mj.ucw.cz/sw/pciutils/
+Source0:	https://mj.ucw.cz/download/linux/pci/%{name}-%{version}.tar.gz
 Patch10:	pciutils-3.3.1-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
 %if %{with dietlibc}
@@ -78,12 +78,12 @@ devices connected to the PCI bus.
 
 %prep
 %setup -q
-%patch10 -p1
-%patch11 -p0
+%patch10 -p1 -b .p10~
+%patch11 -p0 -b .p11~
 %if %{with dietlibc}
-%patch21 -p1
+%patch21 -p1 -b .p21~
 %endif
-%patch22 -p1
+%patch22 -p1 -b .p22~
 
 %patch102 -p1 -b .scan~
 %patch108 -p1 -b .multilib~
@@ -93,8 +93,8 @@ devices connected to the PCI bus.
 %patch113 -p1 -b .keep_static~
 %patch114 -p1 -b .arm64~
 %patch115 -p1 -b .port~
-%patch150 -p1
-%patch151 -p1
+%patch150 -p1 -b .p150~
+%patch151 -p1 -b .p151~
 
 %build
 sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
