@@ -97,7 +97,7 @@ make clean CC=%{__cc}
 %make_build CC=%{__cc} SHARED="yes" ZLIB="no" LIBKMOD="yes" HWDB="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{ldflags}" PREFIX="%{_prefix}" LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids"
 
 # fix lib vs. lib64 in libpci.pc (static Makefile is used)
-sed -i "s|^libdir=.*$|libdir=/%{_lib}|" lib/libpci.pc
+sed -i "s|^libdir=.*$|libdir=%{_libdir}|" lib/libpci.pc
 
 %install
 install -d %{buildroot}{%{_bindir},%{_sbindir},%{_mandir}/man8,%{_libdir}/pkgconfig,%{_includedir}/pci}
