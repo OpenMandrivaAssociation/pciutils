@@ -1,12 +1,12 @@
-diff -up pciutils-3.6.4/Makefile.keep_static~ pciutils-3.6.4/Makefile
---- pciutils-3.6.4/Makefile.keep_static~	2020-01-27 04:26:37.405895561 +0100
-+++ pciutils-3.6.4/Makefile	2020-01-27 04:27:08.236894065 +0100
-@@ -111,7 +111,7 @@ TAGS:
+diff -Naur pciutils-3.8.0/Makefile pciutils-3.8.0.tpg/Makefile
+--- pciutils-3.8.0/Makefile	2022-04-18 16:47:28.000000000 +0000
++++ pciutils-3.8.0.tpg/Makefile	2022-05-27 09:31:45.603822387 +0000
+@@ -122,7 +122,7 @@
  	find . -name '*.[hc]' -exec etags --append {} +
  
  clean:
 -	rm -f `find . -name "*~" -o -name "*.[oa]" -o -name "\#*\#" -o -name TAGS -o -name core -o -name "*.orig"`
 +	rm -f `find . -name "*~" -o -name "*.[o]" -o -name "\#*\#" -o -name TAGS -o -name core -o -name "*.orig"`
- 	rm -f update-pciids lspci setpci example lib/config.* *.[578] pci.ids.gz lib/*.pc lib/*.so lib/*.so.* tags
+ 	rm -f update-pciids lspci$(EXEEXT) setpci$(EXEEXT) example$(EXEEXT) lib/config.* *.[578] pci.ids.gz lib/*.pc lib/*.so lib/*.so.* tags
  	rm -rf maint/dist
  

@@ -6,7 +6,7 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.7.0
+Version:	3.8.0
 Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
@@ -18,21 +18,13 @@ Patch22:	pciutils-3.3.0-LDFLAGS.patch
 # Fedora patches
 # don't segfault on systems without PCI bus (rhbz #84146)
 Patch102:	pciutils-2.1.10-scan.patch
-# use pread/pwrite, ifdef check is obsolete nowadays
-# multilib support
-Patch108:	pciutils-3.3.0-multilib.patch
 # platform support 3x
-Patch110:	pciutils-2.2.10-sparc-support.patch
-Patch111:	pciutils-3.0.1-superh-support.patch
-Patch112:	pciutils-3.1.8-arm.patch
 Patch113:	pciutils-3.1.10-dont-remove-static-libraries.patch
-Patch114:	pciutils-3.3.0-arm64.patch
-Patch115:	pciutils-3.6.2-portability.patch
 
 # change pci.ids directory to hwdata, fedora/rhel specific
-Patch150:	pciutils-2.2.1-idpath.patch
+Patch150:	https://src.fedoraproject.org/rpms/pciutils/raw/rawhide/f/pciutils-2.2.1-idpath.patch
 # add support for directory with another pci.ids, rejected by upstream, rhbz#195327
-Patch151:	pciutils-dir-d.patch
+Patch151:	https://src.fedoraproject.org/rpms/pciutils/raw/rawhide/f/pciutils-dir-d.patch
 
 # (tpg) add explicit requires on libname
 Requires:	%{libname} = %{EVRD}
@@ -43,6 +35,8 @@ BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(libkmod)
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
 Conflicts:	%{mklibname ldetect 0.7} < 0.7.0-5
+Provides:	/sbin/lspci
+Provides:	/sbin/setpci
 
 %description
 This package contains various utilities for inspecting and setting
@@ -71,30 +65,22 @@ devices connected to the PCI bus.
 %patch10 -p1 -b .p10~
 %patch11 -p0 -b .p11~
 %patch22 -p1 -b .p22~
-
 %patch102 -p1 -b .scan~
-%patch108 -p1 -b .multilib~
-%patch110 -p1 -b .sparc~
-%patch111 -p1 -b .superh~
-%patch112 -p1 -b .arm~
 %patch113 -p1 -b .keep_static~
-%patch114 -p1 -b .arm64~
-%patch115 -p1 -b .port~
 %patch150 -p1 -b .p150~
-%patch151 -p1 -b .p151~
 
 %build
 # (tpg) set right URL for pci.ids file
 sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
 
 # build static lib
-%make_build CC=%{__cc} SHARED="no" ZLIB="no" LIBKMOD="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{ldflags}" PREFIX="%{_prefix}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" lib/libpci.a
+%make_build CC=%{__cc} SHARED="no" ZLIB="no" LIBKMOD="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{build_ldflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" lib/libpci.a
 cp lib/libpci.a lib/libpci.a.libc
 make clean CC=%{__cc}
 
 # build shared lib
 # do not build with zlib support since it's useless (only needed if we compress
-%make_build CC=%{__cc} SHARED="yes" ZLIB="no" LIBKMOD="yes" HWDB="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{ldflags}" PREFIX="%{_prefix}" LIBDIR="/%{_lib}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids"
+%make_build CC=%{__cc} SHARED="yes" ZLIB="no" LIBKMOD="yes" HWDB="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{build_ldflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids"
 
 # fix lib vs. lib64 in libpci.pc (static Makefile is used)
 sed -i "s|^libdir=.*$|libdir=%{_libdir}|" lib/libpci.pc
@@ -114,7 +100,7 @@ install -m 644 lib/libpci.pc %{buildroot}%{_libdir}/pkgconfig/
 
 %files
 %doc README pciutils.lsm
-%{_mandir}/man8/*
+%doc %{_mandir}/man8/*
 %{_sbindir}/update-pciids.sh
 %{_bindir}/lspci
 %{_bindir}/pcimodules
