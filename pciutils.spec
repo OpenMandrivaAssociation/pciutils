@@ -6,7 +6,7 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.8.0
+Version:	3.9.0
 Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
@@ -14,7 +14,6 @@ Url:		https://mj.ucw.cz/sw/pciutils/
 Source0:	https://mj.ucw.cz/download/linux/pci/%{name}-%{version}.tar.gz
 Patch10:	pciutils-3.3.1-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
-Patch22:	pciutils-3.3.0-LDFLAGS.patch
 # Fedora patches
 # don't segfault on systems without PCI bus (rhbz #84146)
 Patch102:	pciutils-2.1.10-scan.patch
@@ -61,13 +60,7 @@ This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
 %prep
-%setup -q
-%patch10 -p1 -b .p10~
-%patch11 -p0 -b .p11~
-%patch22 -p1 -b .p22~
-%patch102 -p1 -b .scan~
-%patch113 -p1 -b .keep_static~
-%patch150 -p1 -b .p150~
+%autosetup -p1
 
 %build
 # (tpg) set right URL for pci.ids file
