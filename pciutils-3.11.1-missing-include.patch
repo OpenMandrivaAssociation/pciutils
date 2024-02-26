@@ -1,0 +1,11 @@
+diff -up pciutils-3.11.1/lspci.c.omv~ pciutils-3.11.1/lspci.c
+--- pciutils-3.11.1/lspci.c.omv~	2024-02-26 18:03:09.855875048 +0100
++++ pciutils-3.11.1/lspci.c	2024-02-26 18:03:16.227935471 +0100
+@@ -12,6 +12,7 @@
+ #include <string.h>
+ #include <stdlib.h>
+ #include <stdarg.h>
++#include <unistd.h>
+ 
+ #include "lspci.h"
+ 

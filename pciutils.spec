@@ -6,7 +6,7 @@
 
 Summary:	PCI bus related utilities
 Name:		pciutils
-Version:	3.10.0
+Version:	3.11.1
 Release:	1
 License:	GPLv2+
 Group:		System/Kernel and hardware
@@ -14,6 +14,7 @@ Url:		https://mj.ucw.cz/sw/pciutils/
 Source0:	https://mj.ucw.cz/download/linux/pci/%{name}-%{version}.tar.gz
 Patch10:	pciutils-3.3.1-pcimodules.patch
 Patch11:	pciutils-3.0.3-cardbus-only-when-root.patch
+Patch12:	pciutils-3.11.1-missing-include.patch
 # Fedora patches
 # don't segfault on systems without PCI bus (rhbz #84146)
 Patch102:	pciutils-2.1.10-scan.patch

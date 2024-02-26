@@ -1,12 +1,12 @@
-diff -up pciutils-3.9.0/Makefile.4~ pciutils-3.9.0/Makefile
---- pciutils-3.9.0/Makefile.4~	2022-11-21 01:45:29.925501173 +0100
-+++ pciutils-3.9.0/Makefile	2022-11-21 01:46:06.002721246 +0100
-@@ -140,7 +140,7 @@ TAGS:
+diff -up pciutils-3.11.1/Makefile.4~ pciutils-3.11.1/Makefile
+--- pciutils-3.11.1/Makefile.4~	2024-02-26 17:51:46.833202362 +0100
++++ pciutils-3.11.1/Makefile	2024-02-26 17:53:10.922054603 +0100
+@@ -154,7 +154,7 @@ TAGS:
  	find . -name '*.[hc]' -exec etags --append {} +
  
  clean:
 -	rm -f `find . -name "*~" -o -name "*.[oa]" -o -name "\#*\#" -o -name TAGS -o -name core -o -name "*.orig"`
-+	rm -f `find . -name "*~" -o -name "*.o" -o -name "\#*\#" -o -name TAGS -o -name core -o -name "*.orig"`
- 	rm -f update-pciids lspci$(EXEEXT) setpci$(EXEEXT) example$(EXEEXT) lib/config.* *.[578] pci.ids.gz lib/*.pc lib/*.so lib/*.so.* lib/*.dll lib/*.def lib/dllrsrc.rc *-rsrc.rc tags
++	rm -f `find . -name "*~" -o -name "*.[o]" -o -name "\#*\#" -o -name TAGS -o -name core -o -name "*.orig"`
+ 	rm -f update-pciids lspci$(EXEEXT) setpci$(EXEEXT) example$(EXEEXT) lib/config.* *.[578] pci.ids.gz lib/*.pc lib/*.so lib/*.so.* lib/*.dll lib/*.def lib/dllrsrc.rc *-rsrc.rc tags pcilmr$(EXEEXT)
  	rm -rf maint/dist
  
