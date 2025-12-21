@@ -31,6 +31,7 @@ Requires:	%{libname} = %{EVRD}
 %if !%{with bootstrap}
 Requires:	hwdata >= 0.314
 %endif
+BuildRequires:	make
 BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(libkmod)
 #- previous libldetect was requiring file /usr/share/pci.ids, hence a urpmi issue (cf #29299)
