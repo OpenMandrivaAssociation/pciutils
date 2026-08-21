@@ -7,7 +7,7 @@
 Summary:	PCI bus related utilities
 Name:		pciutils
 Version:	3.15.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Kernel and hardware
 Url:		https://mj.ucw.cz/sw/pciutils/
@@ -69,13 +69,18 @@ devices connected to the PCI bus.
 sed -e 's|^SRC=.*|SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"|' -i update-pciids.sh
 
 # build static lib
-%make_build CC=%{__cc} SHARED="no" ZLIB="no" LIBKMOD="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{build_ldflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" lib/libpci.a
+%if %{cross_compiling}
+%global pci_host HOST=%{_target_cpu}-%{_target_os}
+%else
+%global pci_host %{nil}
+%endif
+%make_build %{pci_host} CC="%{__cc}" SHARED="no" ZLIB="no" LIBKMOD="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{build_ldflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids" lib/libpci.a
 cp lib/libpci.a lib/libpci.a.libc
-make clean CC=%{__cc}
+make clean %{pci_host} CC="%{__cc}"
 
 # build shared lib
 # do not build with zlib support since it's useless (only needed if we compress
-%make_build CC=%{__cc} SHARED="yes" ZLIB="no" LIBKMOD="yes" HWDB="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{build_ldflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids"
+%make_build %{pci_host} CC="%{__cc}" SHARED="yes" ZLIB="no" LIBKMOD="yes" HWDB="yes" DNS="no" STRIP="" OPT="%{optflags} -fPIC" LDFLAGS="%{build_ldflags}" PREFIX="%{_prefix}" LIBDIR="%{_libdir}" IDSDIR="%{_datadir}/hwdata" PCI_IDS="pci.ids"
 
 # fix lib vs. lib64 in libpci.pc (static Makefile is used)
 sed -i "s|^libdir=.*$|libdir=%{_libdir}|" lib/libpci.pc
@@ -101,7 +106,7 @@ check_convert_bitcode() {
 
     if printf '%s\n' "${llvm_file_type}" | grep -q "LLVM IR bitcode"; then
 # recompile without LTO
-    clang %{optflags} -fno-lto -Wno-unused-command-line-argument -x ir ${llvm_file_name} -c -o ${llvm_file_name}
+    %{__cc} %{optflags} -fno-lto -Wno-unused-command-line-argument -x ir ${llvm_file_name} -c -o ${llvm_file_name}
     elif printf '%s\n' "${llvm_file_type}" | grep -q "current ar archive"; then
     printf '%s\n' "Unpacking ar archive ${llvm_file_name} to check for LLVM bitcode components."
 # create archive stage for objects
